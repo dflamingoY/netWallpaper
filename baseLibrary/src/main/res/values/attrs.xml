@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomRoundImageView">
+        <attr name="image_radius" format="dimension" />
+        <attr name="image_type">
+            <enum name="circle" value="0" />
+            <enum name="round" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="CustomToolBarView">
+        <attr name="toolbarTitle" format="string" />
+        <attr name="toolbarSize" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="ViewMoreGroupView">
+        <attr name="title_name" format="string" />
+        <attr name="title_img" format="reference" />
+        <attr name="title_selected" format="boolean" />
+        <attr name="title_size" format="integer" />
+        <attr name="second_Size" format="integer" />
+        <attr name="second_color" format="color" />
+        <attr name="show_arrow" format="boolean" />
+        <attr name="second_title" format="string" />
+        <attr name="privaty_Title" format="string" />
+        <attr name="title_icon" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="SwitchButton">
+        <attr name="sb_shadow_radius" format="reference|dimension" />
+        <attr name="sb_shadow_offset" format="reference|dimension" />
+        <attr name="sb_shadow_color" format="reference|color" />
+        <attr name="sb_uncheck_color" format="reference|color" />
+        <attr name="sb_checked_color" format="reference|color" />
+
+        <attr name="sb_border_width" format="reference|dimension" />
+        <attr name="sb_checkline_color" format="reference|color" />
+        <attr name="sb_checkline_width" format="reference|dimension" />
+        <attr name="sb_uncheckcircle_color" format="reference|color" />
+        <attr name="sb_uncheckcircle_width" format="reference|dimension" />
+        <attr name="sb_uncheckcircle_radius" format="reference|dimension" />
+
+        <attr name="sb_checked" format="reference|boolean" />
+        <attr name="sb_shadow_effect" format="reference|boolean" />
+        <attr name="sb_effect_duration" format="reference|integer" />
+        <attr name="sb_button_color" format="reference|color" />
+        <attr name="sb_show_indicator" format="reference|boolean" />
+        <attr name="sb_background" format="reference|color" />
+        <attr name="sb_enable_effect" format="reference|boolean" />
+        <attr name="sb_button_stroke_color" format="color" />
+    </declare-styleable>
+
+</resources>
