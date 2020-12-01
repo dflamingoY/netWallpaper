@@ -1,5 +1,7 @@
 package com.gaqiujun.moment1.module
 
+import android.content.Intent
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import com.gaqiujun.moment1.R
 import com.gaqiujun.moment1.module.search.SearchFrag
@@ -17,6 +19,7 @@ class MainActivity : BaseSuperAct() {
     }
 
     override fun initView() {
+        setTransparentStatusBar()
         switchFragment(0)
     }
 
@@ -53,6 +56,17 @@ class MainActivity : BaseSuperAct() {
         transTemp.show(currentFrag!!)
         transTemp.commitAllowingStateLoss()
         supportFragmentManager.executePendingTransactions()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK// 注意
+            intent.addCategory(Intent.CATEGORY_HOME)
+            this.startActivity(intent)
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 }

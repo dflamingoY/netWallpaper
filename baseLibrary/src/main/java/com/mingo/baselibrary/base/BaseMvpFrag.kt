@@ -27,7 +27,7 @@ abstract class BaseMvpFrag<T : BasePresenter<*>> : RxFragment(), BaseView {
         savedInstanceState: Bundle?
     ): View? {
         if (mView?.let {
-                (it.parent as ViewGroup).removeAllViews()
+                (it.parent as ViewGroup?)?.removeAllViews()
                 it
             } == null) {
             initInjection()

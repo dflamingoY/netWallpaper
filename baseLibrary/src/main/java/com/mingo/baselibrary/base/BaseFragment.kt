@@ -17,7 +17,7 @@ abstract class BaseFragment : RxFragment() {
         savedInstanceState: Bundle?
     ): View? {
         if (mView?.let {
-                (it.parent as ViewGroup).removeAllViews()
+                (it.parent as ViewGroup?)?.removeAllViews()
                 it
             } == null) {
             mView = inflater.inflate(getLayoutId(), null)
