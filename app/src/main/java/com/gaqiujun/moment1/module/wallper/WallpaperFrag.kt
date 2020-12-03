@@ -3,6 +3,7 @@ package com.gaqiujun.moment1.module.wallper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.navigation.fragment.NavHostFragment
 import com.gaqiujun.moment1.R
 import com.gaqiujun.moment1.module.hot.HotFrag
 import com.gaqiujun.moment1.module.selected.SelectedFrag
@@ -12,7 +13,8 @@ import com.mingo.baselibrary.base.BaseFragment
 import kotlinx.android.synthetic.main.frag_wallpaper.*
 
 class WallpaperFrag : BaseFragment() {
-    private val fragments = arrayOf(SelectedFrag(), HotFrag(0), HotFrag(1), SubjectFrag(), SortFrag())
+    private val fragments =
+        arrayOf(SelectedFrag(), HotFrag(0), HotFrag(1), SubjectFrag(), SortFrag())
     private val titles = arrayOf("精选", "热门", "最新", "专题", "分类")
 
     override fun getLayoutId(): Int {
@@ -29,7 +31,9 @@ class WallpaperFrag : BaseFragment() {
     }
 
     override fun initEvent() {
+        floatingBtn.setOnClickListener {
 
+        }
     }
 
     private inner class WallpaperAdapter(fm: FragmentManager) :

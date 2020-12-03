@@ -2,6 +2,7 @@ package com.gaqiujun.moment1.module.selected
 
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.gaqiujun.moment1.R
@@ -14,6 +15,7 @@ import com.gaqiujun.moment1.module.selected.presenter.SelectedPresenter
 import com.gaqiujun.moment1.module.selected.view.SelectedView
 import com.gaqiujun.moment1.widget.CircleCardImageView
 import com.mingo.baselibrary.base.BaseMvpFrag
+import com.mingo.baselibrary.utils.AppTools
 import kotlinx.android.synthetic.main.frag_recycler.*
 import kotlinx.android.synthetic.main.head_home_banner.view.*
 
@@ -39,10 +41,15 @@ class SelectedFrag : BaseMvpFrag<SelectedPresenter>(), SelectedView {
     override fun initData() {
         adapter =
             object : QuickAdapter<BaseBean>(requireContext(), R.layout.item_img, mData, headView) {
+                val width = AppTools.getWindowWidth(requireContext()) / 3
+                val height: Int = ((355f / 200f * width + 0.5f).toInt())
+                val params = RelativeLayout.LayoutParams(width, height)
+
                 override fun convert(helper: BaseAdapterHelper?, item: BaseBean?) {
                     Glide.with(requireContext())
                         .load(item!!.url + "@200,355.jpg")
                         .into(helper!!.getImageView(R.id.iv_img))
+                    helper.getImageView(R.id.iv_img).layoutParams = params
                 }
             }
         recyclerView.adapter = adapter

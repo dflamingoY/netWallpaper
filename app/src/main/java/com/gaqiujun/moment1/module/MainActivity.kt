@@ -3,59 +3,49 @@ package com.gaqiujun.moment1.module
 import android.content.Intent
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.gaqiujun.moment1.R
-import com.gaqiujun.moment1.module.search.SearchFrag
-import com.gaqiujun.moment1.module.wallper.WallpaperFrag
+import com.gaqiujun.moment1.module.hot.HotFrag
+import com.gaqiujun.moment1.module.selected.SelectedFrag
+import com.gaqiujun.moment1.module.sort.SortFrag
+import com.gaqiujun.moment1.module.subject.SubjectFrag
 import com.mingo.baselibrary.base.BaseSuperAct
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.frag_wallpaper.*
 
 class MainActivity : BaseSuperAct() {
-
-    private val wallpaperFrag = WallpaperFrag()
-    private val searchFrag = SearchFrag()
-    private var currentFrag: Fragment? = null
+    private val fragments =
+        arrayOf(SelectedFrag(), HotFrag(0), HotFrag(1), SubjectFrag(), SortFrag())
+    private val titles = arrayOf("精选", "热门", "最新", "专题", "分类")
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
 
     override fun initView() {
         setTransparentStatusBar()
-        switchFragment(0)
     }
 
     override fun initData() {
-
+        viewPager.adapter = WallpaperAdapter(supportFragmentManager)
+        pagerSliding.setViewPager(viewPager)
     }
 
     override fun initEvent() {
-        tvWallpaper.setOnClickListener {
-            switchFragment(0)
-        }
-        tvSearch.setOnClickListener {
-            switchFragment(1)
-        }
     }
 
-    @Synchronized
-    private fun switchFragment(type: Int) {
-        val transTemp = supportFragmentManager.beginTransaction()
-        currentFrag?.let { transTemp.hide(currentFrag!!) }
-        currentFrag = when (type) {
-            0 -> {
-                wallpaperFrag
-            }
-            else -> {
-                searchFrag
-            }
+    private inner class WallpaperAdapter(fm: FragmentManager) :
+        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        override fun getCount(): Int {
+            return 5
         }
-        currentFrag?.let {
-            if (!currentFrag!!.isAdded) {
-                transTemp.add(R.id.frameContainer, currentFrag!!)
-            }
+
+        override fun getItem(position: Int): Fragment {
+            return fragments[position]
         }
-        transTemp.show(currentFrag!!)
-        transTemp.commitAllowingStateLoss()
-        supportFragmentManager.executePendingTransactions()
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return titles[position]
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {

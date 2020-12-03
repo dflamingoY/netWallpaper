@@ -6,6 +6,8 @@ buildscript {
     ext.dagger_version = "2.6.1"
     ext.rx_life_verion = "4.0.0"
     ext.kotlin_version = "1.4.20"
+    ext.nav_version = "2.3.1"
+
     repositories {
         google()
         jcenter()

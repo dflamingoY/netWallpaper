@@ -5,8 +5,7 @@ import com.gaqiujun.moment1.entity.HomeData
 import com.gaqiujun.moment1.entity.SearchTagBean
 import com.mingo.baselibrary.net.procotol.BaseResp
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface ApiServer {
     @GET("home.do")
@@ -17,5 +16,12 @@ interface ApiServer {
 
     @GET("queryHotKey.do")
     fun getSearchTag(): Observable<BaseResp<List<SearchTagBean>>>
+
+    //查询标签
+    @FormUrlEncoded
+    @POST("searchTag.do")
+    fun getQueryTag(
+        @FieldMap map: Map<String, String>
+    ): Observable<BaseResp<List<SearchTagBean>>>
 
 }

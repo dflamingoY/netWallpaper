@@ -10,7 +10,6 @@ interface SearchWallpaperView : BaseView {
 
     fun showList(list: List<BaseBean>?)
 
-    fun searchResult()
-
+    fun searchResult(list: List<SearchTagBean>?)
 
 }

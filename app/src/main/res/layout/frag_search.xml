@@ -66,15 +66,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar">
 
-        <com.gaqiujun.moment1.widget.CustomFlowTables
-            android:id="@+id/flowTables"
+        <FrameLayout
+            android:id="@+id/frameTag"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+
+            <com.gaqiujun.moment1.widget.CustomFlowTables
+                android:id="@+id/flowTables"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
     </FrameLayout>
 

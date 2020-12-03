@@ -1,5 +1,6 @@
 package com.gaqiujun.moment1.module.search.presenter
 
+import com.gaqiujun.moment1.entity.BaseBean
 import com.gaqiujun.moment1.entity.SearchTagBean
 import com.gaqiujun.moment1.module.search.model.SearchModel
 import com.gaqiujun.moment1.module.search.view.SearchWallpaperView
@@ -13,7 +14,7 @@ import javax.inject.Inject
 class SearchPresenter @Inject constructor() : BasePresenter<SearchWallpaperView>() {
     @Inject
     lateinit var model: SearchModel
-
+    private var currentPage = 0
     fun getSearchTag() {
         model.searchTag().execute(object : BaseObserver<BaseResp<List<SearchTagBean>>>() {
             override fun onNext(t: BaseResp<List<SearchTagBean>>) {
@@ -22,6 +23,27 @@ class SearchPresenter @Inject constructor() : BasePresenter<SearchWallpaperView>
                 }
             }
         }, provider)
+    }
+
+    fun searchTag(tag: String) {
+        model.queryTag(tag).execute(object : BaseObserver<BaseResp<List<SearchTagBean>>>() {
+            override fun onNext(t: BaseResp<List<SearchTagBean>>) {
+                if (t.msgCode.isNetOk()) {
+                    view.searchResult(t.body)
+                }
+            }
+        }, provider)
+    }
+
+    fun searchById(id: String?) {
+        model.searchById(id, currentPage)
+            .execute(object : BaseObserver<BaseResp<List<BaseBean>>>() {
+                override fun onNext(t: BaseResp<List<BaseBean>>) {
+                    if (t.msgCode.isNetOk()) {
+                        view.showList(t.body)
+                    }
+                }
+            }, provider)
     }
 
 }
