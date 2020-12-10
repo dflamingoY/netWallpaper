@@ -10,6 +10,7 @@ import com.gaqiujun.moment1.entity.BaseBean
 import com.gaqiujun.moment1.injection.component.DaggerSubjectComponent
 import com.gaqiujun.moment1.module.hot.view.HotView
 import com.gaqiujun.moment1.module.subject.presenter.SubjectPresenter
+import com.gaqiujun.moment1.net.jump2Subject
 import com.mingo.baselibrary.base.BaseMvpFrag
 import com.mingo.baselibrary.utils.AppTools
 import kotlinx.android.synthetic.main.frag_recycler.*
@@ -44,7 +45,17 @@ class SubjectFrag : BaseMvpFrag<SubjectPresenter>(), HotView {
     }
 
     override fun initEvent() {
-
+        adapter.setOnItemClickListener { view, position ->
+            requireActivity().jump2Subject(
+                mData[position].id,
+                mData[position].url + "@730,353.jpg",
+                mData[position].title,
+                view.findViewById(R.id.iv_img)
+            )
+        }
+        swipeRefresh.setOnRefreshListener {
+            presenter.getList()
+        }
     }
 
     override fun injection() {
@@ -53,7 +64,9 @@ class SubjectFrag : BaseMvpFrag<SubjectPresenter>(), HotView {
     }
 
     override fun showList(list: List<BaseBean>?) {
+        swipeRefresh.isRefreshing = false
         list?.let {
+            mData.clear()
             mData.addAll(it)
             adapter.notifyDataSetChanged()
         }

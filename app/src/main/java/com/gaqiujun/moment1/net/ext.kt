@@ -1,6 +1,17 @@
 package com.gaqiujun.moment1.net
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.view.View
+import android.widget.ImageView
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
+import com.gaqiujun.moment1.module.subjectDetails.SubjectDetailsActivity
+
+
 fun Int.isNetOk() = this == 0
+
 /**
  * 熱門  "pop/" + 0 + ".do"
  * 新 newest/0.do
@@ -23,3 +34,14 @@ private int height = (int) ((353 * 1.0f) / (730 * 1.0f) * width);
 private int height = (int) ((338 * 1.0f) / (600 * 1.0f) * width);
  *
  * */
+
+fun Activity.jump2Subject(id: String?, url: String, title: String?, view: View) {
+    val intent =
+        Intent(this, SubjectDetailsActivity::class.java)
+            .putExtra("id", id)
+            .putExtra("url", url)
+            .putExtra("title", title)
+    val options: ActivityOptionsCompat =
+        ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "anima")
+    ActivityCompat.startActivity(this, intent, options.toBundle())
+}

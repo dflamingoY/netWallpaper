@@ -17,6 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".module.details.PicDetailsActivity" />
+        <activity android:name=".module.subjectDetails.SubjectDetailsActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

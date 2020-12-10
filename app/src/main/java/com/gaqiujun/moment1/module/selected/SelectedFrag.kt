@@ -11,6 +11,7 @@ import com.gaqiujun.moment1.adapter.QuickAdapter
 import com.gaqiujun.moment1.entity.BaseBean
 import com.gaqiujun.moment1.entity.HomeData
 import com.gaqiujun.moment1.injection.component.DaggerSelectedComponent
+import com.gaqiujun.moment1.module.details.PicDetailsActivity
 import com.gaqiujun.moment1.module.selected.presenter.SelectedPresenter
 import com.gaqiujun.moment1.module.selected.view.SelectedView
 import com.gaqiujun.moment1.widget.CircleCardImageView
@@ -18,6 +19,7 @@ import com.mingo.baselibrary.base.BaseMvpFrag
 import com.mingo.baselibrary.utils.AppTools
 import kotlinx.android.synthetic.main.frag_recycler.*
 import kotlinx.android.synthetic.main.head_home_banner.view.*
+import org.jetbrains.anko.support.v4.startActivity
 
 class SelectedFrag : BaseMvpFrag<SelectedPresenter>(), SelectedView {
     private lateinit var headView: View
@@ -41,6 +43,7 @@ class SelectedFrag : BaseMvpFrag<SelectedPresenter>(), SelectedView {
     override fun initData() {
         adapter =
             object : QuickAdapter<BaseBean>(requireContext(), R.layout.item_img, mData, headView) {
+
                 val width = AppTools.getWindowWidth(requireContext()) / 3
                 val height: Int = ((355f / 200f * width + 0.5f).toInt())
                 val params = RelativeLayout.LayoutParams(width, height)
@@ -63,8 +66,8 @@ class SelectedFrag : BaseMvpFrag<SelectedPresenter>(), SelectedView {
     }
 
     override fun initEvent() {
-        adapter.setOnItemClickListener { view, position ->
-
+        adapter.setOnItemClickListener { _, position ->
+            startActivity<PicDetailsActivity>("data" to mData, "index" to position)
         }
     }
 

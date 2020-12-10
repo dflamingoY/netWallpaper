@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/wallpaperFrag">
+
+    <fragment
+        android:id="@+id/wallpaperFrag"
+        android:name="com.gaqiujun.moment1.module.wallper.WallpaperFrag"
+        android:label="WallpaperFrag" />
+    <fragment
+        android:id="@+id/searchFrag"
+        android:name="com.gaqiujun.moment1.module.search.SearchFrag"
+        android:label="SearchFrag" />
+
+</navigation>

@@ -3,6 +3,7 @@ package com.gaqiujun.moment1.net
 import com.gaqiujun.moment1.entity.BaseBean
 import com.gaqiujun.moment1.entity.HomeData
 import com.gaqiujun.moment1.entity.SearchTagBean
+import com.gaqiujun.moment1.entity.SubjectDetailsData
 import com.mingo.baselibrary.net.procotol.BaseResp
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -23,5 +24,8 @@ interface ApiServer {
     fun getQueryTag(
         @FieldMap map: Map<String, String>
     ): Observable<BaseResp<List<SearchTagBean>>>
+
+    @GET
+    fun getSubjectDetails(@Url url: String): Observable<BaseResp<SubjectDetailsData>>
 
 }

@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.frag_wallpaper.*
 
 class MainActivity : BaseSuperAct() {
     private val fragments =
-        arrayOf(SelectedFrag(), HotFrag(0), HotFrag(1), SubjectFrag(), SortFrag())
-    private val titles = arrayOf("精选", "热门", "最新", "专题", "分类")
+        arrayOf(SelectedFrag(), HotFrag(1), SubjectFrag(), SortFrag())
+    private val titles = arrayOf("精选",  "最新", "专题", "分类")
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
@@ -36,7 +36,7 @@ class MainActivity : BaseSuperAct() {
     private inner class WallpaperAdapter(fm: FragmentManager) :
         FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getCount(): Int {
-            return 5
+            return 4
         }
 
         override fun getItem(position: Int): Fragment {
