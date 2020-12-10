@@ -1,5 +1,6 @@
 package com.gaqiujun.moment1.module.details
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -22,7 +23,7 @@ class PicDetailsActivity : BaseMvpAct<PicDetailPresenter>(), PicDetailsView {
     }
 
     private fun images() = Array(4) {
-        ImageView(this)
+        LayoutInflater.from(this).inflate(R.layout.layout_img, null, false)
     }
 
     override fun initView() {
@@ -53,9 +54,9 @@ class PicDetailsActivity : BaseMvpAct<PicDetailPresenter>(), PicDetailsView {
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val view = images[position.rem(4)]
             Glide.with(this@PicDetailsActivity)
-                .load(mData[position].url + "@1080,1920.jpg")
-                .apply(RequestOptions().centerCrop())
-                .into(view)
+                    .load(mData[position].url + "@1080,1920.jpg")
+                    .apply(RequestOptions().centerCrop())
+                    .into(view.findViewById(R.id.iv_img))
             container.addView(view)
             view.setOnClickListener {
 
@@ -64,7 +65,6 @@ class PicDetailsActivity : BaseMvpAct<PicDetailPresenter>(), PicDetailsView {
         }
 
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-//            super.destroyItem(container, position, `object`)
             val i = position % 4
             val view = images[i]
             container.removeView(view)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.gaqiujun.moment1">
 
     <application
@@ -10,15 +11,30 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Wallper">
-        <activity android:name="com.gaqiujun.moment1.module.MainActivity">
+        <activity
+            android:name=".module.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.details.PicDetailsActivity" />
-        <activity android:name=".module.subjectDetails.SubjectDetailsActivity" />
+        <activity
+            android:name=".module.details.PicDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".module.subjectDetails.SubjectDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".module.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

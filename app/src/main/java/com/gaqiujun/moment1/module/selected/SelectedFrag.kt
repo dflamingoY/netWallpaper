@@ -37,31 +37,31 @@ class SelectedFrag : BaseMvpFrag<SelectedPresenter>(), SelectedView {
     override fun initView() {
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
         headView = LayoutInflater.from(requireContext())
-            .inflate(R.layout.head_home_banner, recyclerView, false)
+                .inflate(R.layout.head_home_banner, recyclerView, false)
     }
 
     override fun initData() {
         adapter =
-            object : QuickAdapter<BaseBean>(requireContext(), R.layout.item_img, mData, headView) {
+                object : QuickAdapter<BaseBean>(requireContext(), R.layout.item_img, mData, headView) {
 
-                val width = AppTools.getWindowWidth(requireContext()) / 3
-                val height: Int = ((355f / 200f * width + 0.5f).toInt())
-                val params = RelativeLayout.LayoutParams(width, height)
+                    val width = AppTools.getWindowWidth(requireContext()) / 3
+                    val height: Int = ((355f / 200f * width + 0.5f).toInt())
+                    val params = RelativeLayout.LayoutParams(width, height)
 
-                override fun convert(helper: BaseAdapterHelper?, item: BaseBean?) {
-                    Glide.with(requireContext())
-                        .load(item!!.url + "@200,355.jpg")
-                        .into(helper!!.getImageView(R.id.iv_img))
-                    helper.getImageView(R.id.iv_img).layoutParams = params
+                    override fun convert(helper: BaseAdapterHelper?, item: BaseBean?) {
+                        Glide.with(requireContext())
+                                .load(item!!.url + "@200,355.jpg")
+                                .into(helper!!.getImageView(R.id.iv_img))
+                        helper.getImageView(R.id.iv_img).layoutParams = params
+                    }
                 }
-            }
         recyclerView.adapter = adapter
         (recyclerView.layoutManager as GridLayoutManager).spanSizeLookup =
-            object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    return if (adapter.isHeader(position)) 3 else 1
+                object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return if (adapter.isHeader(position)) 3 else 1
+                    }
                 }
-            }
         presenter.getHomeData()
     }
 
@@ -69,9 +69,13 @@ class SelectedFrag : BaseMvpFrag<SelectedPresenter>(), SelectedView {
         adapter.setOnItemClickListener { _, position ->
             startActivity<PicDetailsActivity>("data" to mData, "index" to position)
         }
+        swipeRefresh.setOnRefreshListener {
+            presenter.getHomeData()
+        }
     }
 
     override fun showData(homeData: HomeData) {
+        swipeRefresh.isRefreshing = false
         homeData.youBiGe?.let {
             mData.addAll(it)
             adapter.notifyDataSetChanged()
