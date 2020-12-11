@@ -14,20 +14,23 @@ class HotPresenter @Inject constructor() : BasePresenter<HotView>() {
 
     @Inject
     lateinit var model: HotModel
-    private var current = 0
     private var hotType = 0
 
     fun setHotType(type: Int) {
         hotType = type
     }
 
-    fun getList() {
-        model.getList(if (hotType == 0) "pop/$current.do" else " newest/$current.do")
+    fun getList(page: Int) {
+        model.getList(if (hotType == 0) "pop/$page.do" else " newest/$page.do")
             .execute(object : BaseObserver<BaseResp<List<BaseBean>>>() {
                 override fun onNext(t: BaseResp<List<BaseBean>>) {
                     if (t.msgCode.isNetOk()) {
                         view.showList(t.body)
                     }
+                }
+
+                override fun onError(e: Throwable) {
+                    view.showError(e)
                 }
             }, provider)
     }

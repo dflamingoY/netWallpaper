@@ -12,9 +12,10 @@
 
     <ImageView
         android:id="@+id/ivApply"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
         android:layout_marginBottom="15dp"
+        android:padding="5dp"
         android:src="@drawable/svg_apply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,6 +27,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="15dp"
+        android:padding="5dp"
         android:src="@drawable/svg_download"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -42,6 +42,7 @@ import android.widget.TextView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.gaqiujun.moment1.R;
+import com.mingo.baselibrary.utils.LogUtils;
 
 import java.util.Locale;
 
@@ -208,24 +209,17 @@ public class PagerSlidingTabStripExtends extends HorizontalScrollView {
     }
 
     public void notifyDataSetChanged() {
-
         tabsContainer.removeAllViews();
-
         tabCount = pager.getAdapter().getCount();
-
         int width = getResources().getDisplayMetrics().widthPixels;
         scrollOffset = (int) (width / tabCount + 0.5f);
-
         for (int i = 0; i < tabCount; i++) {
-
             if (pager.getAdapter() instanceof IconTabProvider) {
                 addIconTab(i, ((IconTabProvider) pager.getAdapter()).getPageIconResId(i));
             } else {
                 addTextTab(i, pager.getAdapter().getPageTitle(i).toString());
             }
-
         }
-
         updateTabStyles();
         //布局文件家在完成  监听
         getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {

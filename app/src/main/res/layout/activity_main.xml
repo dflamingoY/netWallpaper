@@ -15,16 +15,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.gaqiujun.moment1.widget.PagerSlidingTabStripExtends
-            android:id="@+id/pagerSliding"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            app:pstsIndicatorColor="@color/white"
-            app:pstsIndicatorHeight="2dp"
-            app:pstsSelectedTabTextColor="@color/white"
-            app:pstsSelectedTabTextSize="14sp"
-            app:pstsTabTextColor="@color/colorE7e7e7"
-            app:pstsTabTextSize="13sp" />
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.gaqiujun.moment1.widget.PagerSlidingTabStripExtends
+                android:id="@+id/pagerSliding"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:pstsIndicatorColor="@color/white"
+                app:pstsIndicatorHeight="2dp"
+                app:pstsSelectedTabTextColor="@color/white"
+                app:pstsSelectedTabTextSize="14sp"
+                app:pstsTabTextColor="@color/colorE7e7e7"
+                app:pstsTabTextSize="13sp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:padding="4dp"
+                android:src="@mipmap/icon_down_manager"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
