@@ -3,6 +3,7 @@ package com.gaqiujun.moment1.net
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
@@ -44,4 +45,8 @@ fun Activity.jump2Subject(id: String?, url: String, title: String?, view: View) 
     val options: ActivityOptionsCompat =
         ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "anima")
     ActivityCompat.startActivity(this, intent, options.toBundle())
+}
+
+fun isM(): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 }

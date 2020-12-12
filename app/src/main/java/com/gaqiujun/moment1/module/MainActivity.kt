@@ -7,11 +7,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.gaqiujun.moment1.R
 import com.gaqiujun.moment1.module.hot.HotFrag
+import com.gaqiujun.moment1.module.search.SearchActivity
 import com.gaqiujun.moment1.module.selected.SelectedFrag
 import com.gaqiujun.moment1.module.sort.SortFrag
 import com.gaqiujun.moment1.module.subject.SubjectFrag
 import com.mingo.baselibrary.base.BaseSuperAct
 import kotlinx.android.synthetic.main.frag_wallpaper.*
+import org.jetbrains.anko.startActivity
 
 class MainActivity : BaseSuperAct() {
     private val fragments =
@@ -31,6 +33,9 @@ class MainActivity : BaseSuperAct() {
     }
 
     override fun initEvent() {
+        floatingBtn.setOnClickListener {
+            startActivity<SearchActivity>()
+        }
     }
 
     private inner class WallpaperAdapter(fm: FragmentManager) :

@@ -1,18 +1,29 @@
 package com.gaqiujun.moment1.module.details
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
-import android.widget.ImageView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.gaqiujun.moment1.R
 import com.gaqiujun.moment1.entity.BaseBean
 import com.gaqiujun.moment1.module.details.presenter.PicDetailPresenter
 import com.gaqiujun.moment1.module.details.view.PicDetailsView
+import com.gaqiujun.moment1.net.downPic
+import com.gaqiujun.moment1.net.isM
+import com.gaqiujun.moment1.utils.applyWallpaper
 import com.mingo.baselibrary.base.BaseMvpAct
 import com.mingo.baselibrary.utils.AppTools
 import com.mingo.baselibrary.utils.LogUtils
@@ -20,10 +31,17 @@ import com.nineoldandroids.animation.Animator
 import com.nineoldandroids.animation.AnimatorListenerAdapter
 import com.nineoldandroids.animation.ObjectAnimator
 import kotlinx.android.synthetic.main.activity_pic_details.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class PicDetailsActivity : BaseMvpAct<PicDetailPresenter>(), PicDetailsView {
     private val mData by lazy { ArrayList<BaseBean>() }
     private val images by lazy { images() }
+
+    companion object {
+        private const val REQUEST_PERMISSION_EXTERNAL = 0x00
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_pic_details
@@ -48,12 +66,57 @@ class PicDetailsActivity : BaseMvpAct<PicDetailPresenter>(), PicDetailsView {
     override fun initEvent() {
         ivApply.setOnClickListener {
             ObjectAnimator.ofFloat(it, "rotation", 0f, 360f).setDuration(1000).start()
+            Glide.with(this)
+                .asBitmap()
+                .load("${mData[viewPager.currentItem].url}@1080,1920.jpg")
+                .listener(object : RequestListener<Bitmap> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Bitmap>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return true
+                    }
+
+                    override fun onResourceReady(
+                        resource: Bitmap?,
+                        model: Any?,
+                        target: Target<Bitmap>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        resource?.let {
+                            applyWallpaper(it)
+                            showToast("应用成功")
+                        }
+                        return true
+                    }
+                }).submit()
         }
         ivDownload.setOnClickListener {
+            //请求权限
             ObjectAnimator.ofFloat(it, "translationY", AppTools.dp2px(this, 10f), 0f)
                 .setDuration(520).apply {
                     interpolator = BounceInterpolator()
                 }.start()
+            if (isM()) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        REQUEST_PERMISSION_EXTERNAL
+                    )
+                } else {
+                    downPic("${mData[viewPager.currentItem].url}@1080,1920.jpg")
+                }
+            } else {
+                downPic("${mData[viewPager.currentItem].url}@1080,1920.jpg")
+            }
         }
     }
 
@@ -71,13 +134,13 @@ class PicDetailsActivity : BaseMvpAct<PicDetailPresenter>(), PicDetailsView {
                 ivApply,
                 "translationY",
                 if (ivApply.y < AppTools.getWindowHeight(this)) AppTools.dp2px(this, 61f) else 0f
-            ).setDuration(320).start()
+            ).setDuration(220).start()
             ObjectAnimator.ofFloat(
                 ivDownload,
                 "translationY",
                 if (ivApply.y < AppTools.getWindowHeight(this)) AppTools.dp2px(this, 61f) else 0f
-            ).setDuration(320).apply {
-                startDelay = 100
+            ).setDuration(220).apply {
+                startDelay = 50
                 this.addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
                         isAnimated = false
@@ -115,4 +178,28 @@ class PicDetailsActivity : BaseMvpAct<PicDetailPresenter>(), PicDetailsView {
             container.removeView(view)
         }
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_PERMISSION_EXTERNAL) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                downPic("${mData[viewPager.currentItem].url}@1080,1920.jpg")
+            }
+        }
+    }
+
+    private fun downPic(uri: String) {
+        downPic(uri) {
+            runBlocking {
+                launch(Dispatchers.Main) {
+                    showToast(it)
+                }
+            }
+        }
+    }
+
 }
