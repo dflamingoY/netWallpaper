@@ -9,7 +9,7 @@
     android:hapticFeedbackEnabled="true"
     android:orientation="vertical"
     android:stateListAnimator="@drawable/state_anim"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="2.5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

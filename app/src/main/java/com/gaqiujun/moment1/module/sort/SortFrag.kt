@@ -1,10 +1,12 @@
 package com.gaqiujun.moment1.module.sort
 
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.gaqiujun.moment1.R
 import com.gaqiujun.moment1.injection.component.DaggerSortComponent
 import com.gaqiujun.moment1.module.sort.presenter.SortPresenter
 import com.gaqiujun.moment1.module.sort.view.SortView
 import com.mingo.baselibrary.base.BaseMvpFrag
+import kotlinx.android.synthetic.main.frag_recycler.*
 
 class SortFrag : BaseMvpFrag<SortPresenter>(), SortView {
 
@@ -18,7 +20,6 @@ class SortFrag : BaseMvpFrag<SortPresenter>(), SortView {
     }
 
     override fun initView() {
-
     }
 
     override fun initData() {
