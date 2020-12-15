@@ -213,25 +213,8 @@ public class TagCloudView extends ViewGroup implements Runnable, TagsAdapter.OnD
     }
 
     private void addListener(View view, final int position) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            if (!view.hasOnClickListeners() && mOnTagClickListener != null) {
-                view.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mOnTagClickListener.onItemClick(TagCloudView.this, v, position);
-                    }
-                });
-            }
-        } else {
-            if (mOnTagClickListener != null) {
-                view.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mOnTagClickListener.onItemClick(TagCloudView.this, v, position);
-                    }
-                });
-                Log.e("TagCloudView", "Build version is less than 15, the OnClickListener may be overwritten.");
-            }
+        if (!view.hasOnClickListeners() && mOnTagClickListener != null) {
+            view.setOnClickListener(v -> mOnTagClickListener.onItemClick(TagCloudView.this, v, position));
         }
     }
 
