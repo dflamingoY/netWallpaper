@@ -24,6 +24,7 @@ import com.gaqiujun.moment1.injection.component.DaggerSearchActComponent
 import com.gaqiujun.moment1.module.details.PicDetailsActivity
 import com.gaqiujun.moment1.module.search.presenter.SearchPresenter
 import com.gaqiujun.moment1.module.search.view.SearchWallpaperView
+import com.gaqiujun.moment1.utils.SoftkeyBoardManager
 import com.gaqiujun.moment1.widget.dTag.TagsAdapter
 import com.mingo.baselibrary.base.BaseMvpAct
 import com.mingo.baselibrary.utils.AppTools
@@ -147,7 +148,7 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
         })
         nameAdapter.setOnItemClickListener { _, position ->
             linearResult.visibility = View.GONE
-            presenter.searchById(mData[position].id)
+            presenter.searchById(tagData[position].id)
             hideSoft()
         }
         tvCancel.setOnClickListener {
@@ -155,7 +156,21 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
             searchData.clear()
             adapter.notifyDataSetChanged()
             hideSoft()
+            etContent.setText("")
+            tvCancel.visibility = View.GONE
         }
+
+        SoftkeyBoardManager(window.decorView, false).addSoftKeyboardStateListener(object :
+            SoftkeyBoardManager.SoftKeyboardStateListener {
+            override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
+                tvCancel.visibility = View.VISIBLE
+            }
+
+            override fun onSoftKeyboardClosed() {
+
+            }
+        })
+
     }
 
     private fun hideSoft() {
@@ -174,6 +189,8 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
 
     override fun showList(list: List<BaseBean>?) {
         list?.let {
+//            ObjectAnimator.ofFloat(0f, 1f)
+//            recyclerView.setBackgroundColor()
             searchData.addAll(it)
             adapter.notifyDataSetChanged()
         }
