@@ -13,6 +13,7 @@ import com.gaqiujun.moment1.adapter.QuickAdapter
 import com.gaqiujun.moment1.entity.BaseBean
 import com.gaqiujun.moment1.entity.SubjectDetailsData
 import com.gaqiujun.moment1.injection.component.DaggerSubjectDetailsComponent
+import com.gaqiujun.moment1.module.details.PicDetailsActivity
 import com.gaqiujun.moment1.module.subjectDetails.presenter.SubjectDetailsPresenter
 import com.gaqiujun.moment1.module.subjectDetails.view.SubjectDetailsView
 import com.mingo.baselibrary.base.BaseMvpAct
@@ -20,6 +21,7 @@ import com.mingo.baselibrary.utils.AppTools
 import kotlinx.android.synthetic.main.activity_subject_details.*
 import kotlinx.android.synthetic.main.head_img.ivHeadView
 import kotlinx.android.synthetic.main.head_img.view.*
+import org.jetbrains.anko.startActivity
 
 class SubjectDetailsActivity : BaseMvpAct<SubjectDetailsPresenter>(), SubjectDetailsView {
     private lateinit var headView: View
@@ -79,7 +81,9 @@ class SubjectDetailsActivity : BaseMvpAct<SubjectDetailsPresenter>(), SubjectDet
     }
 
     override fun initEvent() {
-
+        adapter.setOnItemClickListener { _, position ->
+            startActivity<PicDetailsActivity>("data" to mData, "index" to position)
+        }
     }
 
     override fun dataList(list: SubjectDetailsData?) {

@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorTransparent"
+        app:elevation="0dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.mingo.baselibrary.widget.StatusBarView
@@ -80,9 +81,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        app:layout_constrainedHeight="true" />
 
     <LinearLayout
         android:id="@+id/linearResult"

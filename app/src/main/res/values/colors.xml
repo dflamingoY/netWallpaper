@@ -9,5 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorDividing">#ddd</color>
     <color name="colorText">#333</color>
-
+    <color name="colorTransparentGray">#B9DBEBFB</color>
 </resources>

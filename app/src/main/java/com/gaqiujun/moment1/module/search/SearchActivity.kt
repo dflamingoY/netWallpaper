@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -38,7 +39,7 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
     private val tagData by lazy { ArrayList<SearchTagBean>() }
     private lateinit var nameAdapter: QuickAdapter<SearchTagBean>
 
-
+    private lateinit var headView: View
     override fun getLayoutId(): Int {
         return R.layout.activity_search
     }
@@ -47,6 +48,9 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
         setTransparentStatusBar()
         DaggerSearchActComponent.builder().activityComponent(actComponent).build().inject(this)
         presenter.view = this
+        recyclerView.layoutManager = GridLayoutManager(this, 3)
+        headView =
+            LayoutInflater.from(this).inflate(R.layout.layout_head_search, recyclerView, false)
     }
 
     override fun initData() {
@@ -63,13 +67,13 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
                 if (!TextUtils.isEmpty(mData[position].color)) {
                     val colors = mData[position].color?.split(",")
                     mGd.setColor(
-                            Color.parseColor(
-                                    "#" + Integer.toHexString(
-                                            colors!![0].toInt()
-                                    ) + Integer.toHexString(colors[1].toInt()) + Integer.toHexString(
-                                            colors[2].toInt()
-                                    )
+                        Color.parseColor(
+                            "#" + Integer.toHexString(
+                                colors!![0].toInt()
+                            ) + Integer.toHexString(colors[1].toInt()) + Integer.toHexString(
+                                colors[2].toInt()
                             )
+                        )
                     )
                 } else {
                     mGd.setColor(Color.WHITE)
@@ -93,24 +97,30 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
         }
         tagCloudView.setAdapter(tagAdapter)
         tagCloudView.setManualScroll(false)
-        adapter = object : QuickAdapter<BaseBean>(this, R.layout.item_img, searchData) {
+        adapter = object : QuickAdapter<BaseBean>(this, R.layout.item_img, searchData, headView) {
             val width = AppTools.getWindowWidth(this@SearchActivity) / 3
             val height: Int = ((355f / 200f * width + 0.5f).toInt())
             val params = RelativeLayout.LayoutParams(width, height)
             override fun convert(helper: BaseAdapterHelper?, item: BaseBean?) {
                 Glide.with(this@SearchActivity)
-                        .load(item!!.url + "@200,355.jpg")
-                        .into(helper!!.getImageView(R.id.iv_img))
+                    .load(item!!.url + "@200,355.jpg")
+                    .into(helper!!.getImageView(R.id.iv_img))
                 helper.getImageView(R.id.iv_img).layoutParams = params
             }
         }
-        recyclerView.layoutManager = GridLayoutManager(this, 3)
         recyclerView.adapter = adapter
-        nameAdapter = object : QuickAdapter<SearchTagBean>(this, R.layout.item_search_name, tagData) {
-            override fun convert(helper: BaseAdapterHelper?, item: SearchTagBean?) {
-                helper!!.getTextView(R.id.tvName).text = item!!.title
+        (recyclerView.layoutManager as GridLayoutManager).spanSizeLookup = object :
+            GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (adapter.isHeader(position)) 3 else 1
             }
         }
+        nameAdapter =
+            object : QuickAdapter<SearchTagBean>(this, R.layout.item_search_name, tagData) {
+                override fun convert(helper: BaseAdapterHelper?, item: SearchTagBean?) {
+                    helper!!.getTextView(R.id.tvName).text = item!!.title
+                }
+            }
         recyclerTag.layoutManager = LinearLayoutManager(this)
         recyclerTag.adapter = nameAdapter
         presenter.getSearchTag()
@@ -149,7 +159,10 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
     }
 
     private fun hideSoft() {
-        (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(etContent.windowToken, 0)
+        (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+            etContent.windowToken,
+            0
+        )
     }
 
     override fun showTag(list: List<SearchTagBean>?) {
@@ -170,7 +183,12 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
         list?.let {
             if (linearResult.visibility != View.VISIBLE) {
                 linearResult.visibility = View.VISIBLE
-                ObjectAnimator.ofFloat(linearResult, "translationY", -AppTools.dp2px(this, 300f), 0f).setDuration(320).start()
+                ObjectAnimator.ofFloat(
+                    linearResult,
+                    "translationY",
+                    -AppTools.dp2px(this, 300f),
+                    0f
+                ).setDuration(320).start()
             }
             tagData.addAll(it)
             nameAdapter.notifyDataSetChanged()

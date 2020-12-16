@@ -66,6 +66,8 @@ class PicDetailsActivity : BaseMvpAct<PicDetailPresenter>(), PicDetailsView {
     override fun initEvent() {
         ivApply.setOnClickListener {
             ObjectAnimator.ofFloat(it, "rotation", 0f, 360f).setDuration(1000).start()
+            ObjectAnimator.ofFloat(it, "scaleX", 1f, 0.7f, 1f).setDuration(700).start()
+            ObjectAnimator.ofFloat(it, "scaleY", 1f, 0.7f, 1f).setDuration(700).start()
             Glide.with(this)
                 .asBitmap()
                 .load("${mData[viewPager.currentItem].url}@1080,1920.jpg")

@@ -14,13 +14,17 @@ class SubjectPresenter @Inject constructor() : BasePresenter<HotView>() {
     @Inject
     lateinit var model: HotModel
 
-    fun getList() {
-        model.getList("specialList/" + 0 + ".do")
+    fun getList(index: Int) {
+        model.getList("specialList/$index.do")
             .execute(object : BaseObserver<BaseResp<List<BaseBean>>>() {
                 override fun onNext(t: BaseResp<List<BaseBean>>) {
                     if (t.msgCode.isNetOk()) {
                         view.showList(t.body)
                     }
+                }
+
+                override fun onError(e: Throwable) {
+                    view.showError(e)
                 }
             }, provider)
     }

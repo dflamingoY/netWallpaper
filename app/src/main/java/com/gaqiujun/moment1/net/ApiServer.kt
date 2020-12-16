@@ -1,9 +1,6 @@
 package com.gaqiujun.moment1.net
 
-import com.gaqiujun.moment1.entity.BaseBean
-import com.gaqiujun.moment1.entity.HomeData
-import com.gaqiujun.moment1.entity.SearchTagBean
-import com.gaqiujun.moment1.entity.SubjectDetailsData
+import com.gaqiujun.moment1.entity.*
 import com.mingo.baselibrary.net.procotol.BaseResp
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -27,5 +24,8 @@ interface ApiServer {
 
     @GET
     fun getSubjectDetails(@Url url: String): Observable<BaseResp<SubjectDetailsData>>
+
+    @GET
+    fun getSortCat(@Url url: String): Observable<BaseResp<SortDataBody>>
 
 }

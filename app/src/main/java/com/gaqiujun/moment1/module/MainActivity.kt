@@ -17,8 +17,8 @@ import org.jetbrains.anko.startActivity
 
 class MainActivity : BaseSuperAct() {
     private val fragments =
-        arrayOf(HotFrag(1), SelectedFrag(), SubjectFrag(), SortFrag())
-    private val titles = arrayOf("新品", "推荐", "主题", "分类")
+        arrayOf(SelectedFrag(), HotFrag(1), SubjectFrag(), SortFrag())
+    private val titles = arrayOf("推荐", "新品", "主题", "分类")
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }

@@ -4,19 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <HorizontalScrollView
+    <com.gaqiujun.moment1.widget.CircleRecyclerView
+        android:id="@+id/circleRecycler"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:fillViewport="true"
         android:scrollbars="none"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/linearContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" />
-
-    </HorizontalScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

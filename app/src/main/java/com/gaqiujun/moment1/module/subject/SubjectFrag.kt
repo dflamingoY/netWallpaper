@@ -1,10 +1,12 @@
 package com.gaqiujun.moment1.module.subject
 
+import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.gaqiujun.moment1.R
 import com.gaqiujun.moment1.adapter.BaseAdapterHelper
+import com.gaqiujun.moment1.adapter.BaseQuickAdapter
 import com.gaqiujun.moment1.adapter.QuickAdapter
 import com.gaqiujun.moment1.entity.BaseBean
 import com.gaqiujun.moment1.injection.component.DaggerSubjectComponent
@@ -18,7 +20,7 @@ import kotlinx.android.synthetic.main.frag_recycler.*
 class SubjectFrag : BaseMvpFrag<SubjectPresenter>(), HotView {
     private lateinit var adapter: QuickAdapter<BaseBean>
     private val mData by lazy { ArrayList<BaseBean>() }
-
+    private var index = 0
     override fun getLayoutId(): Int {
         return R.layout.frag_recycler
     }
@@ -41,7 +43,13 @@ class SubjectFrag : BaseMvpFrag<SubjectPresenter>(), HotView {
             }
         }
         recyclerView.adapter = adapter
-        presenter.getList()
+        adapter.setLoadMoreEnable(
+            recyclerView,
+            recyclerView.layoutManager,
+            LayoutInflater.from(activity).inflate(R.layout.view_loadmore, recyclerView, false)
+        )
+        adapter.setLoadStatue(BaseQuickAdapter.ELoadState.EMPTY)
+        presenter.getList(index)
     }
 
     override fun initEvent() {
@@ -54,7 +62,11 @@ class SubjectFrag : BaseMvpFrag<SubjectPresenter>(), HotView {
             )
         }
         swipeRefresh.setOnRefreshListener {
-            presenter.getList()
+            index = 0
+            presenter.getList(index)
+        }
+        adapter.setOnLoadListener {
+            presenter.getList(++index)
         }
     }
 
@@ -65,10 +77,21 @@ class SubjectFrag : BaseMvpFrag<SubjectPresenter>(), HotView {
 
     override fun showList(list: List<BaseBean>?) {
         swipeRefresh.isRefreshing = false
+        adapter.setLoadStatue(BaseQuickAdapter.ELoadState.EMPTY)
         list?.let {
-            mData.clear()
+            if (index == 0) {
+                mData.clear()
+            }
             mData.addAll(it)
             adapter.notifyDataSetChanged()
+            if (it.size >= 12) {
+                adapter.setLoadStatue(BaseQuickAdapter.ELoadState.READY)
+            }
         }
+    }
+
+    override fun showError(any: Any?) {
+        adapter.setLoadStatue(BaseQuickAdapter.ELoadState.EMPTY)
+        swipeRefresh.isRefreshing = false
     }
 }
