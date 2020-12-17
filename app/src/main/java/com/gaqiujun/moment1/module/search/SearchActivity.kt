@@ -189,8 +189,6 @@ class SearchActivity : BaseMvpAct<SearchPresenter>(), SearchWallpaperView {
 
     override fun showList(list: List<BaseBean>?) {
         list?.let {
-//            ObjectAnimator.ofFloat(0f, 1f)
-//            recyclerView.setBackgroundColor()
             searchData.addAll(it)
             adapter.notifyDataSetChanged()
         }

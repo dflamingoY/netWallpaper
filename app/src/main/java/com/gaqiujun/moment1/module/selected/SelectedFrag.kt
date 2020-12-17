@@ -103,10 +103,12 @@ class SelectedFrag : BaseMvpFrag<SelectedPresenter>(), SelectedView {
     override fun showData(homeData: HomeData) {
         swipeRefresh.isRefreshing = false
         homeData.youBiGe?.let {
+            mData.clear()
             mData.addAll(it)
             adapter.notifyDataSetChanged()
         }
         homeData.xiaoBians?.let {
+            topData.clear()
             topData.addAll(it)
             topAdapter.notifyDataSetChanged()
         }
