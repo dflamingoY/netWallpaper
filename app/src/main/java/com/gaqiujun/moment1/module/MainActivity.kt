@@ -7,12 +7,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.gaqiujun.moment1.R
 import com.gaqiujun.moment1.module.hot.HotFrag
+import com.gaqiujun.moment1.module.privacy.PrivacyActivity
 import com.gaqiujun.moment1.module.search.SearchActivity
 import com.gaqiujun.moment1.module.selected.SelectedFrag
 import com.gaqiujun.moment1.module.sort.SortFrag
 import com.gaqiujun.moment1.module.subject.SubjectFrag
 import com.mingo.baselibrary.base.BaseSuperAct
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.frag_wallpaper.*
+import kotlinx.android.synthetic.main.frag_wallpaper.floatingBtn
+import kotlinx.android.synthetic.main.frag_wallpaper.pagerSliding
+import kotlinx.android.synthetic.main.frag_wallpaper.viewPager
 import org.jetbrains.anko.startActivity
 
 class MainActivity : BaseSuperAct() {
@@ -35,6 +40,9 @@ class MainActivity : BaseSuperAct() {
     override fun initEvent() {
         floatingBtn.setOnClickListener {
             startActivity<SearchActivity>()
+        }
+        floatingDriver.setOnClickListener {
+            startActivity<PrivacyActivity>()
         }
     }
 

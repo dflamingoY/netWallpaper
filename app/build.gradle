@@ -53,4 +53,5 @@ dependencies {
     implementation ('com.alibaba.android:vlayout:1.2.8@aar') {
         transitive = true
     }
+    implementation files("libs/jsoup-1.8.1.jar")
 }
