@@ -21,7 +21,7 @@ class HotPresenter @Inject constructor() : BasePresenter<HotView>() {
     }
 
     fun getList(page: Int) {
-        model.getList(if (hotType == 0) "pop/$page.do" else " newest/$page.do")
+        model.getList(if (hotType == 0) "pop/$page.do" else "newest/$page.do")
             .execute(object : BaseObserver<BaseResp<List<BaseBean>>>() {
                 override fun onNext(t: BaseResp<List<BaseBean>>) {
                     if (t.msgCode.isNetOk()) {
